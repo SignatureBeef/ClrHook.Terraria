@@ -1,0 +1,4 @@
+bin/
+obj/
+env.override.props
+src/Modules/UI/Windows/Exp*.cs
