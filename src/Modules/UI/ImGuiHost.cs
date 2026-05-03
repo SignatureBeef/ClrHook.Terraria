@@ -5,8 +5,6 @@ using Microsoft.Xna.Framework;
 
 namespace ClrHook.Terraria.Modules.UI;
 
-public delegate void ImGuiLayoutDelegate();
-
 public class ImGuiHost
 {
     private ImGuiRenderer _imGuiRenderer;
@@ -32,23 +30,17 @@ public class ImGuiHost
     public void AddWindow(Window window)
     {
         lock (_windows)
-        {
             _windows.Add(window);
-        }
     }
 
     public void RemoveWindow(Window window)
     {
         lock (_windows)
-        {
             _windows.Remove(window);
-        }
     }
 
     public void Draw(GameTime gameTime)
     {
-        // GraphicsDevice.Clear(new Color(clear_color.X, clear_color.Y, clear_color.Z));
-
         // Call BeforeLayout first to set things up
         _imGuiRenderer.BeforeLayout(gameTime);
 
@@ -62,7 +54,6 @@ public class ImGuiHost
     protected virtual void ImGuiLayout()
     {
         lock (_windows)
-        {
             foreach (var window in _windows)
             {
                 if (window.IsOpen)
@@ -72,6 +63,5 @@ public class ImGuiHost
                     ImGui.End();
                 }
             }
-        }
     }
 }
