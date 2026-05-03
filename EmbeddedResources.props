@@ -13,10 +13,10 @@
     <MakeDir Directories="$(EmbeddedOutput)" />
     <Exec Command="dotnet run --project $(SolutionDir)extractor/EmbeddedReferences.csproj -- &quot;$(TerrariaExe)&quot; &quot;$(EmbeddedOutput)&quot;" />
   </Target>
-  <ItemGroup>
+  <ItemGroup Condition="'$(ReferenceEmbeddedResources)' == 'true'">
     <EmbeddedDlls Include="$(EmbeddedOutput)\*.dll" />
   </ItemGroup>
-  <ItemGroup>
+  <ItemGroup Condition="'$(ReferenceEmbeddedResources)' == 'true'">
     <Reference Include="@(EmbeddedDlls)">
       <Private>false</Private>
     </Reference>

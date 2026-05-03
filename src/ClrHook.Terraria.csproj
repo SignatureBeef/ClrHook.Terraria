@@ -7,6 +7,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>latest</LangVersion>
     <Nullable>enable</Nullable>
+    <ReferenceEmbeddedResources>true</ReferenceEmbeddedResources>
   </PropertyGroup>
   <Import Project="../env.props" Condition="Exists('../env.props')" />
   <Import Project="../env.override.props" Condition="Exists('../env.override.props')" />
@@ -16,6 +17,5 @@
     <PackageReference Include="MonoMod.RuntimeDetour" Version="25.3.4" />
     <Reference Include="$(TerrariaPath)/Terraria.exe" />
     <Reference Include="$(TerrariaPath)/FNA.dll" />
-    <Reference Include="$(EmbeddedOutput)/ReLogic.dll" />
   </ItemGroup>
 </Project>
