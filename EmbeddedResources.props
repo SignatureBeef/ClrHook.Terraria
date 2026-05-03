@@ -3,11 +3,6 @@
     <TerrariaExe>$(TerrariaPath)/Terraria.exe</TerrariaExe>
     <EmbeddedOutput>$(SolutionDir)references</EmbeddedOutput>
   </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference 
-      Include="$(SolutionDir)/extractor/EmbeddedReferences.csproj"
-      ReferenceOutputAssembly="false" />
-  </ItemGroup>
   <PropertyGroup>
     <Extractor>$(SolutionDir)extractor/bin/$(Configuration)/net8.0/EmbeddedReferences.dll</Extractor>
   </PropertyGroup>
@@ -16,10 +11,10 @@
         Inputs="$(TerrariaExe)"
         Outputs="$(EmbeddedOutput)">
     <MakeDir Directories="$(EmbeddedOutput)" />
-    <Exec Command="dotnet &quot;$(Extractor)&quot; &quot;$(TerrariaExe)&quot; &quot;$(EmbeddedOutput)&quot;" />
+    <Exec Command="dotnet run --project $(SolutionDir)extractor/EmbeddedReferences.csproj -- &quot;$(TerrariaExe)&quot; &quot;$(EmbeddedOutput)&quot;" />
   </Target>
   <ItemGroup>
-    <EmbeddedDlls Include="$(EmbeddedOutput)/*.dll" />
+    <EmbeddedDlls Include="$(EmbeddedOutput)\*.dll" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="@(EmbeddedDlls)">

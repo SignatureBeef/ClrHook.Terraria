@@ -4,7 +4,8 @@ static class Program
 {
     public static void Main(string[] args)
     {
-
+        Console.WriteLine("Embedded Resource Extractor");
+        
         if (args.Length < 2)
         {
             Console.WriteLine("Usage: extractor <input-assembly> <output-dir>");
