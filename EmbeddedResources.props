@@ -1,0 +1,33 @@
+<Project>
+  <PropertyGroup>
+    <TerrariaExe>$(TerrariaPath)/Terraria.exe</TerrariaExe>
+    <EmbeddedOutput>$(SolutionDir)references</EmbeddedOutput>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference 
+      Include="$(SolutionDir)/extractor/EmbeddedReferences.csproj"
+      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+  <PropertyGroup>
+    <Extractor>$(SolutionDir)extractor/bin/$(Configuration)/net8.0/EmbeddedReferences.dll</Extractor>
+  </PropertyGroup>
+  <Target Name="ExtractTerrariaDependencies"
+        BeforeTargets="ResolveReferences"
+        Inputs="$(TerrariaExe)"
+        Outputs="$(EmbeddedOutput)">
+    <MakeDir Directories="$(EmbeddedOutput)" />
+    <Exec Command="dotnet &quot;$(Extractor)&quot; &quot;$(TerrariaExe)&quot; &quot;$(EmbeddedOutput)&quot;" />
+  </Target>
+  <ItemGroup>
+    <EmbeddedDlls Include="$(EmbeddedOutput)/*.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="@(EmbeddedDlls)">
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+  <Target Name="ValidateTerrariaPath" BeforeTargets="ExtractTerrariaDependencies">
+    <Error Condition="!Exists('$(TerrariaExe)')"
+          Text="Terraria.exe not found at $(TerrariaExe). Check your .env / override." />
+  </Target>
+</Project>

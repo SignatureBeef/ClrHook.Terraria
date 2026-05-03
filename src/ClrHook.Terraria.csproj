@@ -10,10 +10,12 @@
   </PropertyGroup>
   <Import Project="../env.props" Condition="Exists('../env.props')" />
   <Import Project="../env.override.props" Condition="Exists('../env.override.props')" />
+  <Import Project="../EmbeddedResources.props" Condition="Exists('../EmbeddedResources.props')" />
   <ItemGroup>
     <PackageReference Include="ImGui.NET" Version="1.91.6.1" />
     <PackageReference Include="MonoMod.RuntimeDetour" Version="25.3.4" />
     <Reference Include="$(TerrariaPath)/Terraria.exe" />
     <Reference Include="$(TerrariaPath)/FNA.dll" />
+    <Reference Include="$(EmbeddedOutput)/ReLogic.dll" />
   </ItemGroup>
 </Project>
