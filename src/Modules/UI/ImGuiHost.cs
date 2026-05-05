@@ -7,9 +7,9 @@ namespace ClrHook.Terraria.Modules.UI;
 
 public class ImGuiHost
 {
-    private ImGuiRenderer _imGuiRenderer;
+    private readonly ImGuiRenderer _imGuiRenderer;
 
-    private List<Window> _windows = [];
+    private readonly List<Window> _windows = [];
 
     public ImGuiHost(Game game)
     {

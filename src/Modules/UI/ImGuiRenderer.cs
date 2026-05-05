@@ -16,10 +16,10 @@ public class ImGuiRenderer
     private Game _game;
 
     // Graphics
-    private GraphicsDevice _graphicsDevice;
+    private readonly GraphicsDevice _graphicsDevice;
 
     private BasicEffect? _effect;
-    private RasterizerState _rasterizerState;
+    private readonly RasterizerState _rasterizerState;
 
     private byte[]? _vertexData;
     private VertexBuffer? _vertexBuffer;
@@ -46,9 +46,9 @@ public class ImGuiRenderer
         _game = game ?? throw new ArgumentNullException(nameof(game));
         _graphicsDevice = game.GraphicsDevice;
 
-        _loadedTextures = new Dictionary<IntPtr, Texture2D>();
+        _loadedTextures = [];
 
-        _rasterizerState = new RasterizerState()
+        _rasterizerState = new()
         {
             CullMode = CullMode.None,
             DepthBias = 0,
@@ -77,7 +77,7 @@ public class ImGuiRenderer
         unsafe { Marshal.Copy(new IntPtr(pixelData), pixels, 0, pixels.Length); }
 
         // Create and register the texture as an XNA texture
-        var tex2d = new Texture2D(_graphicsDevice, width, height, false, SurfaceFormat.Color);
+        Texture2D tex2d = new(_graphicsDevice, width, height, false, SurfaceFormat.Color);
         tex2d.SetData(pixels);
 
         // Should a texture already have been build previously, unbind it first so it can be deallocated
@@ -96,7 +96,7 @@ public class ImGuiRenderer
     /// </summary>
     public virtual IntPtr BindTexture(Texture2D texture)
     {
-        var id = new IntPtr(_textureId++);
+        IntPtr id = new(_textureId++);
 
         _loadedTextures.Add(id, texture);
 
@@ -147,23 +147,12 @@ public class ImGuiRenderer
     {
         var io = ImGui.GetIO();
 
-        // // MonoGame-specific //////////////////////
-        // _game.Window.TextInput += (s, a) =>
-        // {
-        //     if (a.Character == '\t') return;
-        //     io.AddInputCharacter(a.Character);
-        // };
-
-        ///////////////////////////////////////////
-
-        // FNA-specific ///////////////////////////
         TextInputEXT.TextInput += c =>
         {
             if (c == '\t') return;
 
             ImGui.GetIO().AddInputCharacter(c);
         };
-        ///////////////////////////////////////////
     }
 
     /// <summary>
@@ -171,7 +160,7 @@ public class ImGuiRenderer
     /// </summary>
     protected virtual Effect UpdateEffect(Texture2D texture)
     {
-        _effect = _effect ?? new BasicEffect(_graphicsDevice);
+        _effect ??= new BasicEffect(_graphicsDevice);
 
         var io = ImGui.GetIO();
 

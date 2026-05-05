@@ -15,7 +15,7 @@
   <ItemGroup>
     <PackageReference Include="ImGui.NET" Version="1.91.6.1" />
     <PackageReference Include="MonoMod.RuntimeDetour" Version="25.3.4" />
-    <Reference Include="$(TerrariaPath)/Terraria.exe" />
-    <Reference Include="$(TerrariaPath)/FNA.dll" />
+    <Reference Include="$(TerrariaPath)/Terraria.exe" Condition="Exists('$(TerrariaPath)')" />
+    <Reference Include="$(TerrariaPath)/FNA.dll" Condition="Exists('$(TerrariaPath)')" />
   </ItemGroup>
 </Project>

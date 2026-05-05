@@ -6,7 +6,7 @@ namespace ClrHook.Terraria;
 [AttributeUsage(AttributeTargets.Method)]
 public class ModuleAttribute : Attribute
 {
-    public static void Invoke()
+    public static void InvokeStaticInitializers()
     {
         var asm = typeof(ModuleAttribute).Assembly;
         var methods = asm.GetTypes()

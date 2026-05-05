@@ -1,4 +1,6 @@
 
+using System.Reflection;
+
 Console.WriteLine("Embedded Resource Extractor");
 
 if (args.Length < 2)

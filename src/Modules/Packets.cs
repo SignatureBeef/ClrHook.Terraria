@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using Microsoft.Xna.Framework;
 using Terraria;
 
@@ -7,7 +8,7 @@ namespace ClrHook.Terraria.Modules;
 
 public class PacketWriter(Stream stream) : IDisposable
 {
-    private BinaryWriter _writer = new(stream);
+    private readonly BinaryWriter _writer = new(stream);
 
     public PacketWriter Write(byte value) { _writer.Write(value); return this; }
     public PacketWriter Write(ushort value) { _writer.Write(value); return this; }
@@ -32,7 +33,7 @@ public static class PacketBuilder
     }
 
     // Helper to build a packet with header (id, length) and contents
-    public static byte[] BuildPacket(byte packetId, System.Action<PacketWriter> writeContents)
+    public static byte[] BuildPacket(byte packetId, Action<PacketWriter> writeContents)
     {
         using MemoryStream ms = new();
         using PacketWriter writer = new(ms);
@@ -48,7 +49,7 @@ public static class PacketBuilder
         return ms.ToArray();
     }
 
-    public static void BuildAndSend(byte packetId, System.Action<PacketWriter> writeContents)
+    public static void BuildAndSend(byte packetId, Action<PacketWriter> writeContents)
     {
         byte[] data = BuildPacket(packetId, writeContents);
         SendPacketToServer(data);
@@ -77,8 +78,8 @@ public static class PacketBuilder
 
     // use reflection or direct method calls to send the raw packet data to the server
     // this way we dont host the vanilla code.
-    static readonly System.Reflection.MethodInfo _sendPacketToServerMethod = typeof(NetMessage)
-        .GetMethod("SendPacketToServer", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Static);
+    static readonly MethodInfo _sendPacketToServerMethod = typeof(NetMessage)
+        .GetMethod("SendPacketToServer", BindingFlags.NonPublic | BindingFlags.Static);
 
     public static void SendPacketToServer(byte[] data)
     {

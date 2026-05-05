@@ -3,7 +3,9 @@ using System.Reflection;
 using Microsoft.Xna.Framework;
 using MonoMod.RuntimeDetour;
 
-namespace ClrHook.Terraria;
+#pragma warning disable IDE0052 // Ignore unused private members
+
+namespace ClrHook.Terraria.Modules;
 
 public delegate void Main_DrawDelegate(global::Terraria.Main main, GameTime gameTime);
 public delegate void Main_LoadContentDelegate(global::Terraria.Main main);
